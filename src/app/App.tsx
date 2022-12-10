@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import { Route, Routes } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import NewNote from '../components/NewNote';
+import NoteList from '../components/NoteList';
 import useLocalStorage from '../hooks/useLocalStrorage';
 
 export type Note = {
@@ -56,20 +57,18 @@ const App = (): JSX.Element => {
     ]);
   };
 
- /**
-  * AddTag is a function that takes a Tag as an argument and returns a function
-  * @param {Tag} tag - Tag - this is the tag that we want to add to the list of tags
-  */
+  /**
+   * AddTag is a function that takes a Tag as an argument and returns a function
+   * @param {Tag} tag - Tag - this is the tag that we want to add to the list of tags
+   */
   const addTag = (tag: Tag) => {
     setTags((prev) => [...prev, tag]);
   };
 
-
-
   return (
     <Container className="my-4">
       <Routes>
-        <Route path="/" element={<h3>Note Taking App With TypeScript</h3>} />
+        <Route path="/" element={<NoteList />} />
         <Route
           path="/new"
           element={
