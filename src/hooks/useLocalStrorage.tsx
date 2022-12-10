@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const useLocalStorage = <T extends unknown>(
   key: string,
@@ -16,6 +16,10 @@ const useLocalStorage = <T extends unknown>(
       return JSON.parse(jsonValue);
     }
   });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
 
   return [value, setValue] as [T, typeof setValue];
 };
