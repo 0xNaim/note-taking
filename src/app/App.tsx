@@ -68,6 +68,12 @@ const App = (): JSX.Element => {
     setTags((prev) => [...prev, tag]);
   };
 
+/**
+ * It takes an id and a NoteData object, and returns a new array of notes where the note with the given
+ * id has its data updated with the given data
+ * @param {string} id - The id of the note to update
+ * @param {NoteData}  - `id` is the id of the note to update
+ */
   const onUpdateNote = (id: string, { tags, ...data }: NoteData) => {
     setNotes((prevNotes) => {
       return prevNotes.map((note) => {
@@ -80,9 +86,41 @@ const App = (): JSX.Element => {
     });
   };
 
+/**
+ * We're filtering out the note that has the id that we pass in
+ * @param {string} id - The id of the note that we want to delete.
+ */
   const onDeleteNote = (id: string) => {
     setNotes((prevNote) => {
       return prevNote.filter((note) => note.id !== id);
+    });
+  };
+
+ /**
+  * If the tag's id matches the id passed in, return a new tag object with the label property set to
+  * the label passed in. Otherwise, return the tag as is
+  * @param {string} id - string - the id of the tag to update
+  * @param {string} label - The new label for the tag
+  */
+  const updateTag = (id: string, label: string) => {
+    setTags((prevTags) => {
+      return prevTags.map((tag) => {
+        if (tag.id === id) {
+          return { ...tag, label };
+        } else {
+          return tag;
+        }
+      });
+    });
+  };
+
+/**
+ * We're returning a new array of tags that doesn't include the tag with the id that was passed in
+ * @param {string} id - The id of the tag to be deleted
+ */
+  const deleteTag = (id: string) => {
+    setTags((prevTags) => {
+      return prevTags.filter((tag) => tag.id !== id);
     });
   };
 
@@ -91,7 +129,14 @@ const App = (): JSX.Element => {
       <Routes>
         <Route
           path="/"
-          element={<NoteList notes={notesWithTags} availableTags={tags} />}
+          element={
+            <NoteList
+              notes={notesWithTags}
+              availableTags={tags}
+              onUpdateTag={updateTag}
+              onDeleteTag={deleteTag}
+            />
+          }
         />
         <Route
           path="/new"
