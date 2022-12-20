@@ -17,16 +17,19 @@ type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
   onAddTag: (tag: Tag) => void;
   availableTags: Tag[];
-};
+} & Partial<NoteData>;
 
 const NoteForm = ({
   onSubmit,
   onAddTag,
   availableTags,
+  title = '',
+  markdown = '',
+  tags = [],
 }: NoteFormProps): JSX.Element => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
   const navigate = useNavigate();
 
   /**
@@ -52,7 +55,12 @@ const NoteForm = ({
           <Col>
             <Form.Group controlId="Title">
               <Form.Label>Title</Form.Label>
-              <Form.Control ref={titleRef} placeholder="Title" required />
+              <Form.Control
+                ref={titleRef}
+                placeholder="Title"
+                required
+                defaultValue={title}
+              />
             </Form.Group>
           </Col>
           <Col>
@@ -91,6 +99,7 @@ const NoteForm = ({
             rows={15}
             placeholder="Text body"
             required
+            defaultValue={markdown}
           />
         </Form.Group>
 
